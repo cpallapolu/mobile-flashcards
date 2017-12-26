@@ -13,10 +13,12 @@ import { purple, white } from './src/utils/colors';
 import Decks from './src/containers/Decks';
 import DeckView from './src/containers/DeckView';
 import NewDeck from './src/containers/NewDeck';
+import QuizView from './src/containers/QuizView';
 
 const Tabs = TabNavigator({
   Decks: {
     screen: Decks,
+    // screen: QuizView,
     navigationOptions: {
       tabBarLabel: 'Decks',
       tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
@@ -37,6 +39,15 @@ const MainNavigator = StackNavigator({
   },
   DeckView: {
     screen: DeckView,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  },
+  QuizView: {
+    screen: QuizView,
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {

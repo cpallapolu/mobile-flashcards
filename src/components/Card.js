@@ -7,8 +7,7 @@ import { gray } from '../utils/colors';
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius : Platform.OS === 'ios' ? 16 : 2,
     padding : 20,
     marginLeft: 10,
@@ -21,6 +20,11 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3
     }
+  },
+  root: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
@@ -30,7 +34,7 @@ class Card extends Component {
 
     return (
       <TouchableOpacity style={styles.card} onPress={() => nav.navigate('DeckView', { entryId: title })}>
-        <View key={title} >
+        <View key={title} style={styles.root}>
           <Text style={{fontSize: 20}}>
             {title}
           </Text>

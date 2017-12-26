@@ -28,7 +28,7 @@ const defaultDecks = {
 
 const DECKS = 'DECKS';
 
-export async function getDecks() {
+export async function fetchDecks() {
   let decks = await AsyncStorage.getItem(DECKS);
 
   decks = JSON.parse(decks);
@@ -40,5 +40,10 @@ export async function getDecks() {
   }
 
   return decks;
-
 };
+
+export async function fetchDeck(title) {
+  let decks = await fetchDecks();
+
+  return decks[title];
+}

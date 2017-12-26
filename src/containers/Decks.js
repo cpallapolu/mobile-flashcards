@@ -5,18 +5,18 @@ import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native
 
 import Card from '../components/Card';
 
-import { getDecks } from '../state/api';
+import { fetchDecks } from '../state/api';
 import { receiveDecks } from '../state/actions';
 
 class Decks extends Component {
   static navigationOptions = {
-    title: 'Welcome',
+    title: 'Home',
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
 
-    getDecks()
+    fetchDecks()
       .then((decks) => {
         dispatch(receiveDecks(decks));
       });
@@ -41,9 +41,9 @@ class Decks extends Component {
   }
 }
 
-function mapStateToProps(decks) {
+function mapStateToProps(state) {
   return {
-    decks
+    decks: state.decks
   }
 }
 
