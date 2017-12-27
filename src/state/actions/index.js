@@ -7,17 +7,18 @@ export function receiveDecks(decks) {
   };
 }
 
-export const GET_DECKS = 'GET_DECKS';
-export function fetchDecks() {
-  return {
-    type: GET_DECKS,
-  };
-}
-
 export const GET_DECK = 'GET_DECK';
 export function getDeck(deck) {
   return {
     type: GET_DECK,
     deck
   };
+}
+
+export const SAVE_DECK_TITLE = 'SAVE_DECK_TITLE';
+export function saveDeckTitle(title) {
+  return {
+    type: SAVE_DECK_TITLE,
+    title
+  }
 }

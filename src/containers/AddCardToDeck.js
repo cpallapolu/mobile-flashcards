@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import TextButton from '../components/TextButton';
 import { purple, white, red, black, gray, green } from '../utils/colors';
 
-import { saveDeckTitle } from '../state/api';
+import { addCardToDeck } from '../state/api';
 import { receiveDecks } from '../state/actions';
 
 const styles = StyleSheet.create({
@@ -34,32 +34,37 @@ const styles = StyleSheet.create({
   },
 });
 
-class NewDeck extends Component {
-  static navigationOptions = {
-    title: 'New Deck',
-  };
+class AddCardToDeck extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.state.params.title
+    }
+  }
 
   state = {
-    title: ''
+    question: '',
+    answer: ''
   }
 
   handleSubmit = () => {
-    const { title } = this.state;
+    const { question, answer } = this.state;
     const { dispatch } = this.props;
+    const { title } = this.props.navigation.state.params;
 
-    saveDeckTitle(title)
-      .then((decks) => {
-        dispatch(receiveDecks(decks));
-
+    addCardToDeck(title, { question, answer })
+      .then(() => {
         this.handleCancel();
       });
   };
 
   handleCancel = () => {
+    const { title } = this.props.navigation.state.params;
+
     const resetAction = NavigationActions.reset({
-      index: 0,
+      index: 1,
       actions: [
-        NavigationActions.navigate({ routeName: 'Home'})
+        NavigationActions.navigate({ routeName: 'Home'}),
+        NavigationActions.navigate({ routeName: 'DeckView', params: { title } })
       ]
     })
     this.props.navigation.dispatch(resetAction)
@@ -70,14 +75,25 @@ class NewDeck extends Component {
       <View style={styles.root}>
         <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
           <Text style={{fontSize: 40}}>
-            {'What is the title of your deck?'}
+            {'Question for the card?'}
           </Text>
         </View>
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1, marginLeft: 30, marginRight: 30, marginTop: 30}}
-          onChangeText={title => this.setState({ title })}
-          value={this.state.title}
-          placeholder={'Title'}
+          onChangeText={question => this.setState({ question })}
+          value={this.state.question}
+          placeholder={'Question'}
+        />
+        <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
+          <Text style={{fontSize: 40}}>
+            {'Answer for the card?'}
+          </Text>
+        </View>
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1, marginLeft: 30, marginRight: 30, marginTop: 30}}
+          onChangeText={answer => this.setState({ answer })}
+          value={this.state.answer}
+          placeholder={'Answer'}
         />
         <View style={styles.btns}>
           <TextButton
@@ -97,4 +113,4 @@ class NewDeck extends Component {
   }
 }
 
-export default connect()(NewDeck);
+export default connect()(AddCardToDeck);

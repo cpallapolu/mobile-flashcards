@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+import _ from 'lodash';
 
 import TextButton from '../components/TextButton';
 import { purple, white, red, black, gray, green } from '../utils/colors';
@@ -46,7 +48,8 @@ class QuizView extends Component {
     currentView: 'question',
     qIndex: 0,
     correct: 0,
-    showResults: false
+    showResults: false,
+    socre: '0 %'
   }
 
   componentWillMount() {
@@ -72,44 +75,66 @@ class QuizView extends Component {
 
   handleSubmit = (CorIC) => {
     const deck = this.props.deck;
-    const { qIndex, currentView, correct } = this.state;
+    const { currentView, correct } = this.state;
+    let { qIndex } = this.state;
+
+    qIndex += 1;
 
     this.setState({
-      qIndex: qIndex + 1,
+      qIndex: qIndex,
       currentView: 'question',
       correct: CorIC === 'correct' ? (correct + 1) : correct
     });
 
-    if (qIndex + 1 === deck.questions.length) {
+    if (qIndex === deck.questions.length) {
       this.setState({
         showResults: true
       });
     } else {
       this.setState({
-        QorAText: deck.questions[qIndex + 1].question,
+        QorAText: deck.questions[qIndex].question,
         QorABtn: 'Answer'
       });
     }
   }
 
+  handleHome = () => {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Home'})
+      ]
+    });
+    this.props.navigation.dispatch(resetAction);
+  }
 
   render() {
     const { deck } = this.props.navigation.state.params;
-    const { QorABtn, QorAText, qIndex, showResults } = this.state;
+    const { QorABtn, QorAText, qIndex, showResults, correct } = this.state;
+    const score = `${_.round((correct / deck.questions.length) * 100, 2)} %`;
 
     if (showResults) {
       return (
-        <View>
-          <Text>
-            Your Test result is: {(this.state.correct / deck.questions.length) * 100} %
+        <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 40}}>
+          <Text style={{fontSize: 50}}>
+            Your Test result
           </Text>
+          <Text style={{fontSize: 60}}>
+            {score}
+          </Text>
+          <TextButton
+            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: red}]}
+            onPress={this.handleHome}>
+            <Text style={[styles.btnText]}>Home</Text>
+          </TextButton>
         </View>
       )
     }
+
     return (
       <View style={styles.root}>
         <View style={{marginTop: 10, marginLeft: 10}}>
-          <Text style={{fontSize: 30}}>{qIndex + 1}/2</Text>
+          <Text style={{fontSize: 30}}>{qIndex + 1}/{deck.questions.length}</Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
           <Text style={{fontSize: 40}}>
@@ -120,7 +145,6 @@ class QuizView extends Component {
               {QorABtn}
             </Text>
           </TextButton>
-
         </View>
         <View style={styles.btns}>
           <TextButton

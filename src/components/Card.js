@@ -33,7 +33,7 @@ class Card extends Component {
     const { title, numberOfQuestions, nav } = this.props;
 
     return (
-      <TouchableOpacity style={styles.card} onPress={() => nav.navigate('DeckView', { entryId: title })}>
+      <TouchableOpacity style={styles.card} onPress={() => nav.navigate('DeckView', { title })}>
         <View key={title} style={styles.root}>
           <Text style={{fontSize: 20}}>
             {title}

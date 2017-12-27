@@ -1,7 +1,8 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Platform, TouchableOpacity, FlatList } from 'react-native';
+import _ from 'lodash';
 
 import Card from '../components/Card';
 
@@ -22,20 +23,21 @@ class Decks extends Component {
       });
   }
 
+  renderItem = ({item}) => {
+    return <Card nav={this.props.navigation} key={item.title} title={item.title} numberOfQuestions={item.questions.length || 0}/>
+  }
+
   render() {
     const { decks } = this.props;
+    const decksValues = _.values(decks);
 
     return (
-      <View>
-        {
-          Object.keys(decks).map((deckKey) => {
-            const deck = decks[deckKey];
-
-            return (
-              <Card nav={this.props.navigation} key={deck.title} title={deck.title} numberOfQuestions={deck.questions.length || 0}/>
-            )
-          })
-        }
+      <View style={{flex: 1}}>
+        <FlatList
+          data={decksValues}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => index}
+        />
       </View>
     )
   }

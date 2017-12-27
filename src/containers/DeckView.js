@@ -54,7 +54,7 @@ class DeckView extends Component {
     if (!Object.keys(deck).length) {
       return (
         <View>
-          <Text>Hello</Text>
+          <Text>Loading</Text>
         </View>
       )
     }
@@ -72,7 +72,7 @@ class DeckView extends Component {
         <View style={styles.btns}>
           <TextButton
             style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: white}]}
-            onPress={() => console.log('Incorrect Button Presses')}>
+              onPress={() => navigation.navigate('AddCardToDeck', { title: deck.title })}>
             <Text style={[styles.btnText, { color: black }]}>Add Card</Text>
           </TextButton>
           <TextButton
@@ -89,7 +89,7 @@ class DeckView extends Component {
 function mapStateToProps(state, { navigation }) {
   return {
     deck: state.activeDeck,
-    title: navigation.state.params.entryId
+    title: navigation.state.params.title
   }
 }
 
