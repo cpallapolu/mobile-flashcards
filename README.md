@@ -9,7 +9,8 @@ add flashcards to those decks, then take quizzes on those decks.
 # Client
 - clone the repository
 - install all project dependencies with `yarn install`
-- start the development server with `yarn start`
+- start the server with `yarn start`
+- press `i` for ios simulator
 
 Note: npm can be used in place of yarn.
 
