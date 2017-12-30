@@ -13,14 +13,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1
   },
-  iosBtn: {
-    padding: 10,
-    borderRadius: 7,
-    height: 45,
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 10
-  },
   btnText: {
     fontSize: 22,
     textAlign: 'center',
@@ -30,8 +22,23 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    marginBottom: 40
+    marginBottom: 40,
+    marginTop: 40
   },
+  questionText: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30
+  },
+  questionInput: {
+    height: 40,
+    borderColor: gray,
+    borderWidth: 1,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 30
+  }
 });
 
 class AddCardToDeck extends Component {
@@ -71,39 +78,44 @@ class AddCardToDeck extends Component {
   };
 
   render() {
+    const { question, answer } = this.state;
+
     return (
       <View style={styles.root}>
-        <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
-          <Text style={{fontSize: 40}}>
+        <View style={styles.questionText}>
+          <Text style={{fontSize: Platform.OS === 'ios' ? 40 : 20}}>
             {'Question for the card?'}
           </Text>
         </View>
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1, marginLeft: 30, marginRight: 30, marginTop: 30}}
+          style={styles.questionInput}
           onChangeText={question => this.setState({ question })}
-          value={this.state.question}
+          value={question}
           placeholder={'Question'}
         />
-        <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
-          <Text style={{fontSize: 40}}>
+        <View style={styles.questionText}>
+          <Text style={{fontSize: Platform.OS === 'ios' ? 40 : 20}}>
             {'Answer for the card?'}
           </Text>
         </View>
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1, marginLeft: 30, marginRight: 30, marginTop: 30}}
+          style={styles.questionInput}
           onChangeText={answer => this.setState({ answer })}
-          value={this.state.answer}
+          value={answer}
           placeholder={'Answer'}
         />
         <View style={styles.btns}>
+          {
+            question.length && answer.length ?
+              <TextButton
+                style={{backgroundColor: black}}
+                onPress={this.handleSubmit}>
+                <Text style={[styles.btnText, { color: white }]}>Submit</Text>
+              </TextButton> :
+              <View></View>
+          }
           <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: black}]}
-            onPress={this.handleSubmit}>
-            <Text style={[styles.btnText, { color: white }]}>Submit</Text>
-          </TextButton>
-
-          <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: white}]}
+            style={{backgroundColor: white}}
             onPress={this.handleCancel}>
             <Text style={[styles.btnText, { color: black }]}>Cancel</Text>
           </TextButton>

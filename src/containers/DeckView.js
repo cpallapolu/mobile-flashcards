@@ -12,14 +12,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1
   },
-  iosBtn: {
-    padding: 10,
-    borderRadius: 7,
-    height: 45,
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 10
-  },
   btnText: {
     fontSize: 22,
     textAlign: 'center'
@@ -30,6 +22,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginBottom: 40
   },
+  titleText: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30
+  }
 });
 
 class DeckView extends Component {
@@ -61,7 +59,7 @@ class DeckView extends Component {
 
     return (
       <View style={styles.root}>
-        <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
+        <View style={styles.titleText}>
           <Text style={{fontSize: 60}}>
             {deck.title}
           </Text>
@@ -71,12 +69,12 @@ class DeckView extends Component {
         </View>
         <View style={styles.btns}>
           <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: white}]}
+            style={{backgroundColor: white}}
               onPress={() => navigation.navigate('AddCardToDeck', { title: deck.title })}>
             <Text style={[styles.btnText, { color: black }]}>Add Card</Text>
           </TextButton>
           <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: black}]}
+            style={{backgroundColor: black}}
             onPress={() => navigation.navigate('QuizView', { deck })}>
             <Text style={[styles.btnText, { color: white }]}>Start Quiz</Text>
           </TextButton>

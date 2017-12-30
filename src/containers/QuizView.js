@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import _ from 'lodash';
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers';
 
 import TextButton from '../components/TextButton';
 import { purple, white, red, black, gray, green } from '../utils/colors';
@@ -13,14 +14,6 @@ import { fetchDeck } from '../state/actions';
 const styles = StyleSheet.create({
   root: {
     flex: 1
-  },
-  iosBtn: {
-    padding: 10,
-    borderRadius: 7,
-    height: 45,
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 10
   },
   btnText: {
     fontSize: 22,
@@ -90,6 +83,8 @@ class QuizView extends Component {
       this.setState({
         showResults: true
       });
+
+      clearLocalNotification().then(setLocalNotification);
     } else {
       this.setState({
         QorAText: deck.questions[qIndex].question,
@@ -123,7 +118,7 @@ class QuizView extends Component {
             {score}
           </Text>
           <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: red}]}
+            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidBtn, {backgroundColor: red}]}
             onPress={this.handleHome}>
             <Text style={[styles.btnText]}>Home</Text>
           </TextButton>
@@ -148,12 +143,12 @@ class QuizView extends Component {
         </View>
         <View style={styles.btns}>
           <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: red}]}
+            style={{backgroundColor: green}}
             onPress={() => this.handleSubmit('correct')}>
             <Text style={[styles.btnText]}>Correct</Text>
           </TextButton>
           <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: green}]}
+            style={{backgroundColor: red}}
             onPress={() => this.handleSubmit('incorrect')}>
             <Text style={[styles.btnText]}>Incorrect</Text>
           </TextButton>

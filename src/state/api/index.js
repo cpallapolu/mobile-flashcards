@@ -27,10 +27,9 @@ const defaultDecks = {
   }
 };
 
-const DECKS = 'DECKS';
+const DECKS = 'MobileFlashcards:decks';
 
 export async function fetchDecks() {
-  // AsyncStorage.clear();
   let decks = await AsyncStorage.getItem(DECKS);
 
   decks = JSON.parse(decks);

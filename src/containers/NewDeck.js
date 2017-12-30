@@ -13,14 +13,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1
   },
-  iosBtn: {
-    padding: 10,
-    borderRadius: 7,
-    height: 45,
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 10
-  },
   btnText: {
     fontSize: 22,
     textAlign: 'center',
@@ -66,6 +58,8 @@ class NewDeck extends Component {
   };
 
   render() {
+    const { title } = this.state;
+
     return (
       <View style={styles.root}>
         <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
@@ -76,18 +70,21 @@ class NewDeck extends Component {
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1, marginLeft: 30, marginRight: 30, marginTop: 30}}
           onChangeText={title => this.setState({ title })}
-          value={this.state.title}
+          value={title}
           placeholder={'Title'}
         />
         <View style={styles.btns}>
+          {
+            title.length ?
+              <TextButton
+                style={{backgroundColor: black}}
+                onPress={this.handleSubmit}>
+                <Text style={[styles.btnText, { color: white }]}>Submit</Text>
+              </TextButton> :
+              <View></View>
+          }
           <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: black}]}
-            onPress={this.handleSubmit}>
-            <Text style={[styles.btnText, { color: white }]}>Submit</Text>
-          </TextButton>
-
-          <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidAddCardBtn, {backgroundColor: white}]}
+            style={{backgroundColor: white}}
             onPress={this.handleCancel}>
             <Text style={[styles.btnText, { color: black }]}>Cancel</Text>
           </TextButton>

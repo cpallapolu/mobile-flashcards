@@ -9,12 +9,14 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import reducers from './src/state/reducers';
 
 import { purple, white } from './src/utils/colors';
+import { setLocalNotification } from './src/utils/helpers';
 
 import Decks from './src/containers/Decks';
 import DeckView from './src/containers/DeckView';
 import NewDeck from './src/containers/NewDeck';
 import QuizView from './src/containers/QuizView';
 import AddCardToDeck from './src/containers/AddCardToDeck';
+
 
 const Tabs = TabNavigator({
   Decks: {
@@ -67,6 +69,10 @@ const MainNavigator = StackNavigator({
 });
 
 export default class App extends Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     return (
       <Provider store={createStore(reducers)}>
