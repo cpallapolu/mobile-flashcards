@@ -28,11 +28,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function TextButton({ children, onPress, style = {} }) {
+export default function TextButton({ children, onPress, style = {}, ...props }) {
   return (
     <TouchableOpacity
       style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidBtn, style]}
-      onPress={onPress}>
+      onPress={onPress}
+      {...props}>
       {children}
     </TouchableOpacity>
   )

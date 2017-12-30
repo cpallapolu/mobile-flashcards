@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    marginBottom: 40
+    marginBottom: 40,
+    marginTop: 40
   },
 });
 
@@ -103,6 +104,20 @@ class QuizView extends Component {
     this.props.navigation.dispatch(resetAction);
   }
 
+  handleRetakeQuiz = () => {
+    const deck = this.props.deck;
+
+    this.setState({
+      QorAText: deck.questions[0].question,
+      QorABtn: 'Answer',
+      currentView: 'question',
+      qIndex: 0,
+      correct: 0,
+      showResults: false,
+      socre: '0 %'
+    });
+  }
+
   render() {
     const { deck } = this.props.navigation.state.params;
     const { QorABtn, QorAText, qIndex, showResults, correct } = this.state;
@@ -110,19 +125,28 @@ class QuizView extends Component {
 
     if (showResults) {
       return (
-        <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 40}}>
-          <Text style={{fontSize: 50}}>
-            Your Test result
-          </Text>
-          <Text style={{fontSize: 60}}>
-            {score}
-          </Text>
-          <TextButton
-            style={[Platform.OS === 'ios' ? styles.iosBtn : styles.androidBtn, {backgroundColor: red}]}
-            onPress={this.handleHome}>
-            <Text style={[styles.btnText]}>Home</Text>
-          </TextButton>
-        </View>
+        // <View style={styles.root}>
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 40}}>
+            <Text style={{fontSize: 50}}>
+              Your Test result
+            </Text>
+            <Text style={{fontSize: 60}}>
+              {score}
+            </Text>
+            <View style={styles.btns}>
+              <TextButton
+                style={{backgroundColor: red}}
+                onPress={this.handleHome}>
+                <Text style={[styles.btnText]}>Home</Text>
+              </TextButton>
+              <TextButton
+                style={{backgroundColor: green}}
+                onPress={this.handleRetakeQuiz}>
+                <Text style={[styles.btnText]}>Retake Quiz</Text>
+              </TextButton>
+            </View>
+          </View>
+        // </View>
       )
     }
 
@@ -132,7 +156,7 @@ class QuizView extends Component {
           <Text style={{fontSize: 30}}>{qIndex + 1}/{deck.questions.length}</Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
-          <Text style={{fontSize: 40}}>
+          <Text style={{fontSize: 30}}>
             {QorAText}
           </Text>
           <TextButton onPress={this.handleQorABtn}>

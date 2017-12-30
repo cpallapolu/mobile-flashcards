@@ -43,18 +43,28 @@ class NewDeck extends Component {
       .then((decks) => {
         dispatch(receiveDecks(decks));
 
-        this.handleCancel();
+        const deckViewAction = NavigationActions.reset({
+          index: 1,
+          actions: [
+            NavigationActions.navigate({ routeName: 'Home' }),
+            NavigationActions.navigate({ routeName: 'DeckView', params: { title }})
+          ]
+        });
+
+        this.props.navigation.dispatch(deckViewAction);
       });
   };
 
   handleCancel = () => {
+    const { title } = this.state;
+
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
         NavigationActions.navigate({ routeName: 'Home'})
       ]
     })
-    this.props.navigation.dispatch(resetAction)
+    this.props.navigation.dispatch(resetAction);
   };
 
   render() {
@@ -74,15 +84,12 @@ class NewDeck extends Component {
           placeholder={'Title'}
         />
         <View style={styles.btns}>
-          {
-            title.length ?
-              <TextButton
-                style={{backgroundColor: black}}
-                onPress={this.handleSubmit}>
-                <Text style={[styles.btnText, { color: white }]}>Submit</Text>
-              </TextButton> :
-              <View></View>
-          }
+          <TextButton
+            style={{backgroundColor: black}}
+            onPress={this.handleSubmit}
+            disabled={!title.length}>
+            <Text style={[styles.btnText, { color: white }]}>Submit</Text>
+          </TextButton>
           <TextButton
             style={{backgroundColor: white}}
             onPress={this.handleCancel}>

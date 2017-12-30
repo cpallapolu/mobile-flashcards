@@ -105,15 +105,12 @@ class AddCardToDeck extends Component {
           placeholder={'Answer'}
         />
         <View style={styles.btns}>
-          {
-            question.length && answer.length ?
-              <TextButton
-                style={{backgroundColor: black}}
-                onPress={this.handleSubmit}>
-                <Text style={[styles.btnText, { color: white }]}>Submit</Text>
-              </TextButton> :
-              <View></View>
-          }
+          <TextButton
+            style={{backgroundColor: black}}
+            onPress={this.handleSubmit}
+            disabled={!(question.length && answer.length)}>
+            <Text style={[styles.btnText, { color: white }]}>Submit</Text>
+          </TextButton>
           <TextButton
             style={{backgroundColor: white}}
             onPress={this.handleCancel}>

@@ -9,7 +9,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import reducers from './src/state/reducers';
 
 import { purple, white } from './src/utils/colors';
-import { setLocalNotification } from './src/utils/helpers';
+import { setLocalNotification, clearLocalNotification } from './src/utils/helpers';
 
 import Decks from './src/containers/Decks';
 import DeckView from './src/containers/DeckView';
